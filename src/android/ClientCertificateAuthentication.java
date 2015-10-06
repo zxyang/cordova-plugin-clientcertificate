@@ -33,8 +33,7 @@ public class ClientCertificateAuthentication extends CordovaPlugin {
 
     @Override
     public Boolean shouldAllowBridgeAccess(String url) {
-        Boolean aBoolean = super.shouldAllowBridgeAccess(url);
-        return aBoolean;
+        return super.shouldAllowBridgeAccess(url);
     }
 
 
