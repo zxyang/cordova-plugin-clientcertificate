@@ -41,5 +41,6 @@ Install iOS and Android platform
     
 Run the code
 
-    cordova run android/ios
+    cordova run android
+    cordova run ios
 
