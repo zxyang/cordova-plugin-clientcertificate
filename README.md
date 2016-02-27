@@ -1,9 +1,9 @@
 # Cordova Client Certificate Plugin
 This plugin uses iOS implmentation and API from mwaylabs/cordova-plugin-client-certificate
 
-This plugin handles client certificate request from iOS and Android WebView.
+This plugin handles client certificate request from both iOS and Android WebView.
 
-
+#Use Steps
 Clone the plugin
 
     $ git clone https://github.com/zxyang/cordova-plugin-clientcertificate.git
