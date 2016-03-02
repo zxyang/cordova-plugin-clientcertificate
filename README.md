@@ -31,7 +31,7 @@ Add the following code inside `onDeviceReady`
         alert("Error:" + error);
     }
 
-    clientCertificate.register("certfilePath/cert.p12", "s3cr37", success, failure);
+    clientCertificate.register("cert.p12", "password", success, failure);
 ```
 
 Install iOS and Android platform
