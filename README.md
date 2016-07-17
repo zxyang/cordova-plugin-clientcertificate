@@ -1,5 +1,5 @@
 # cordova-client-cert-authentication
-This plugin adds certificate-based authentication (SSO) to your cordova application. There is to extra coding or android  knowledge required when using this plugin. It does not contain any JavaScript part since it just waits until the SSLSocket asks the client for a certificate and then shows the default client-cert pop-up you'd also get when visiting your web page using the android chrome browser.
+This plugin adds certificate-based authentication (SSO) to your cordova application. There is no extra coding or android  knowledge required when using this plugin. It does not contain any JavaScript part since it just waits until the SSLSocket asks the client for a certificate and then shows the default client-cert pop-up you would also get when visiting your web page using the android chrome browser.
 
 ## Usage
 Follow the official [Get Started](https://cordova.apache.org/#getstarted) guide of cordova or use your existing application.
