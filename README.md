@@ -5,7 +5,7 @@ This plugin is a forked from zxyang/cordova-plugin-clientcertificate
 
 This plugin handles client certificate request from both iOS and Android WebView the full path to the certificat is required.
 
-It is possible too add dynamically certificats to a apps in r/w folder.
+This plugin read the certificate in any folder even in a cordova.file.dataDirectory (r/w folder). (So you can retrieve you cert file from a API and use it)
 
 #Todo
 Add Windows platform
@@ -25,7 +25,9 @@ Install the plugin
     $ cordova plugin add ../cordova-plugin-client-certificate-addictic
     
 
-Copy a client certificate (PKCS12 format) to your www/ folder.
+Exemple :
+Copy of an embedded certificate in /www (read only) to a directory accessible in read/write
+Retrieve the final path and execute the handshake SSL
 
 Add the following code inside `onDeviceReady`
 
