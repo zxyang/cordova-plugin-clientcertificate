@@ -27,7 +27,6 @@ Copy a client certificate (PKCS12 format) to your www/ folder.
 Add the following code inside `onDeviceReady`
 
 ```js
-	var certFile = false;
 	var certAutomate = 'mycert.p12';
 	var certFolder = 'certificates/';
 	var appDir = cordova.file.applicationDirectory + 'www/';
@@ -55,8 +54,7 @@ Add the following code inside `onDeviceReady`
 	};
 	
 	var certificateRegistred = function(message) {
-		console.log(message);
-		
+		console.log(message);		
 		// launch your web service that requires certificate authentication here
 	};	
 	

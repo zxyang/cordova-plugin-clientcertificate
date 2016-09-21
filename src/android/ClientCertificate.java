@@ -56,11 +56,8 @@ public class ClientCertificate extends CordovaPlugin {
     public boolean onReceivedClientCertRequest(CordovaWebView view, ICordovaClientCertRequest request) {
       try {
                 KeyStore keystore = KeyStore.getInstance("PKCS12");
-               
-                //InputStream astream = cordova.getActivity().getApplicationContext().getAssets().open(p12path);
 				File initialFile = new File(p12path);
-    			InputStream astream = new FileInputStream(initialFile);
-				
+    			InputStream astream = new FileInputStream(initialFile);				
                 keystore.load(astream, p12password.toCharArray());
                 astream.close();
                 Enumeration e = keystore.aliases();
