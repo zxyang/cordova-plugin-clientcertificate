@@ -10,6 +10,17 @@ This plugin read the certificate in any folder even in a cordova.file.dataDirect
 #Todo
 Add Windows platform
 
+#Prerequisites
+Add to config.xml the following
+```xml
+<platform name="android">
+	<preference name="AndroidPersistentFileLocation" value="Internal" />
+</platform>
+<platform name="ios">
+	<preference name="iosPersistentFileLocation" value="Library" />
+</platform>
+```
+
 #Use Steps
 Clone the plugin
 
@@ -23,6 +34,9 @@ Install the plugin
 
     $ cd hello
     $ cordova plugin add ../cordova-plugin-client-certificate-addictic
+
+Install plugin File
+	$ cordova plugin add cordova-plugin-file
     
 
 Exemple :
