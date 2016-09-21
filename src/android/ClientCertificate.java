@@ -29,6 +29,7 @@ import java.security.cert.CertificateFactory;
 import java.util.Collection;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -56,7 +57,10 @@ public class ClientCertificate extends CordovaPlugin {
       try {
                 KeyStore keystore = KeyStore.getInstance("PKCS12");
                
-                InputStream astream = cordova.getActivity().getApplicationContext().getAssets().open(p12path);
+                //InputStream astream = cordova.getActivity().getApplicationContext().getAssets().open(p12path);
+				File initialFile = new File(p12path);
+    			InputStream astream = new FileInputStream(initialFile);
+				
                 keystore.load(astream, p12password.toCharArray());
                 astream.close();
                 Enumeration e = keystore.aliases();
@@ -77,17 +81,26 @@ public class ClientCertificate extends CordovaPlugin {
             }
         return true;
     }
-
+	
+	// Android quirk
+	// Handle a SSL client certificate request is launched with the event onReceivedClientCertRequest
     @Override
     public boolean execute(String action, JSONArray a, CallbackContext c) throws JSONException {
         if (action.equals("register"))
         {
-            p12path = "www/" + a.getString(0);
+            p12path = a.getString(0);
             p12password = a.getString(1);
-            return true;
+			if(p12path.length()!=0 && p12password.length()!=0)
+			{
+				c.success("Path of the certificat and password are registred for the transaction");
+            	return true;
+			}
+			else
+			{
+				c.error("Path of the certificat or password id not defined");
+				return false;
+			}
         }
         return false;
     }
-
-
 }
