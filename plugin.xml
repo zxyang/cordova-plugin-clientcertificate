@@ -27,8 +27,8 @@
     <description>Cordova Client Certificate Plugin</description>
     <license>Apache 2.0</license>
     <keywords>client, certificate, authentication, client certificate</keywords>
-    <repo>https://github.com/agenceaddictic/cordova-plugin-clientcertificate.git</repo>
-    <issue>https://github.com/agenceaddictic/cordova-plugin-clientcertificate/issues</issue>
+    <repo>https://github.com/agenceaddictic/cordova-plugin-client-certificate-addictic.git</repo>
+    <issue>https://github.com/agenceaddictic/cordova-plugin-client-certificate-addictic/issues</issue>
 
     <js-module src="www/clientCertificate.js" name="clientCertificate">
         <clobbers target="clientCertificate" />

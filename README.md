@@ -10,7 +10,7 @@ It is possible too add dynamically certificats to a apps in r/w folder.
 #Use Steps
 Clone the plugin
 
-    $ git clone https://github.com/agenceaddictic/cordova-plugin-clientcertificate.git
+    $ git clone https://github.com/agenceaddictic/cordova-plugin-client-certificate-addictic.git
 
 Create a new Cordova Project
 
@@ -19,7 +19,7 @@ Create a new Cordova Project
 Install the plugin
 
     $ cd hello
-    $ cordova plugin add ../cordova-plugin-clientcertificate
+    $ cordova plugin add ../cordova-plugin-client-certificate-addictic
     
 
 Copy a client certificate (PKCS12 format) to your www/ folder.
