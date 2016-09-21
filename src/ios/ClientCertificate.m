@@ -39,7 +39,7 @@
     NSString* password = [command argumentAtIndex:1];
 
     //check certificate path
-    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingFormat:@"/www/%@", certPath];
+    NSString *path = certPath;
     if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"certificate file not found: %@", path]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
