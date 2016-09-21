@@ -34,9 +34,11 @@ Install the plugin
 
     $ cd hello
     $ cordova plugin add ../cordova-plugin-client-certificate-addictic
-
+    
 Install plugin File
-	$ cordova plugin add cordova-plugin-file
+
+    $ cordova plugin add cordova-plugin-file
+
     
 
 Exemple :
