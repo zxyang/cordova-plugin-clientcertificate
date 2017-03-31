@@ -1,4 +1,4 @@
-package org.apache.cordova.plugin.clientcertauth;
+package de.jstd.cordova.plugin;
 
 import android.annotation.TargetApi;
 import android.content.Context;
