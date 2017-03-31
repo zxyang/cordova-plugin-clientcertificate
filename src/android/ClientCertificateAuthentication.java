@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.security.KeyChain;
 import android.security.KeyChainAliasCallback;
 import android.security.KeyChainException;
+import android.security.keystore.KeyProperties;
 import android.util.Log;
 import android.widget.Toast;
 import org.apache.cordova.CordovaPlugin;
@@ -30,8 +31,7 @@ public class ClientCertificateAuthentication extends CordovaPlugin {
 
     @Override
     public Boolean shouldAllowBridgeAccess(String url) {
-        Boolean aBoolean = super.shouldAllowBridgeAccess(url);
-        return aBoolean;
+        return super.shouldAllowBridgeAccess(url);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -40,7 +40,7 @@ public class ClientCertificateAuthentication extends CordovaPlugin {
         if (mCertificates == null || mPrivateKey == null) {
             loadKeys(request);
         } else {
-            proceedRequers(request);
+            proceedRequest(request);
         }
         return true;
     }
@@ -51,8 +51,8 @@ public class ClientCertificateAuthentication extends CordovaPlugin {
         final String alias = sp.getString(SP_KEY_ALIAS, null);
 
         if (alias == null) {
-            KeyChain.choosePrivateKeyAlias(cordova.getActivity(), callback, new String[] { "RSA" }, null,
-                    request.getHost(), request.getPort(), null);
+            KeyChain.choosePrivateKeyAlias(cordova.getActivity(), callback,
+                    new String[] { KeyProperties.KEY_ALGORITHM_RSA }, null, request.getHost(), request.getPort(), null);
         } else {
             ExecutorService threadPool = cordova.getThreadPool();
             threadPool.submit(new Runnable() {
@@ -97,7 +97,7 @@ public class ClientCertificateAuthentication extends CordovaPlugin {
         }
     }
 
-    public void proceedRequers(ICordovaClientCertRequest request) {
+    public void proceedRequest(ICordovaClientCertRequest request) {
         request.proceed(mPrivateKey, mCertificates);
     }
 }
