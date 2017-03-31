@@ -22,7 +22,7 @@
     xmlns:rim="http://www.blackberry.com/ns/widgets"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-client-certificate-addictic"
-    version="0.0.1">
+    version="0.0.2">
     <name>Client Certificate</name>
     <description>Cordova Client Certificate Plugin</description>
     <license>Apache 2.0</license>
@@ -52,7 +52,44 @@
         <source-file src="src/ios/CustomHTTPProtocol.m" />
         <header-file src="src/ios/QNSURLSessionDemux.h" />
         <source-file src="src/ios/QNSURLSessionDemux.m" />
+        <header-file src="src/ios/OpenCertFile.h" />
+        <source-file src="src/ios/OpenCertFile.m" />
 
+
+        <config-file target="*-Info.plist" parent="CFBundleDocumentTypes">
+            <array>
+                <dict>
+                <key>CFBundleTypeName</key>
+                <string>Custom Certificate</string>
+                <key>LSItemContentTypes</key>
+                    <array>
+                        <string>customextension.certificate</string>
+                    </array>
+                <key>LSHandlerRank</key>
+                <string>Owner</string>
+            </dict>
+            </array>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="UTExportedTypeDeclarations">
+            <array>
+                <dict>
+                    <key>UTTypeConformsTo</key>
+                    <array>
+                        <string>public.data</string>
+                    </array>
+                    <key>UTTypeDescription</key>
+                    <string>Custom PKCS12 extension</string>
+                    <key>UTTypeIdentifier</key>
+                    <string>customextension.certificate</string>
+                    <key>UTTypeTagSpecification</key>
+                    <dict>
+                        <key>public.filename-extension</key>
+                        <string>myp12</string>
+                    </dict>
+                </dict>
+            </array>
+        </config-file>
     </platform>
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
