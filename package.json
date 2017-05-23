@@ -1,0 +1,14 @@
+{
+  "name": "cordova-plugin-clientcertificate",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tentwentyfour/cordova-plugin-clientcertificate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tentwentyfour/cordova-plugin-clientcertificate/issues"
+  },
+  "homepage": "https://github.com/tentwentyfour/cordova-plugin-clientcertificate#readme"
+}
