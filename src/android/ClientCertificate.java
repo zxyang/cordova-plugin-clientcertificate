@@ -1,87 +1,102 @@
 
-package org.apache.cordova.plugin.clientcert;
+package org.apache.cordova.plugin;
 
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
-import android.security.KeyChain;
-import android.security.KeyChainAliasCallback;
-import android.security.KeyChainException;
-import android.util.Log;
-import android.widget.Toast;
+
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.ICordovaClientCertRequest;
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaInterface;
-import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
-import java.security.PrivateKey;
-import java.security.cert.X509Certificate;
-import java.util.concurrent.ExecutorService;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.cert.CertificateFactory;
-import java.util.Collection;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ClientCertificate extends CordovaPlugin {
 
-
-    public String p12path = "";
-    public String p12password = "";
+    private String p12path = "";
+    private String p12password = "";
+    private CallbackContext callbackContext = null;
 
 
     @Override
     public Boolean shouldAllowBridgeAccess(String url) {
         return super.shouldAllowBridgeAccess(url);
     }
-  @Override
+
+    @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
- 
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onReceivedClientCertRequest(CordovaWebView view, ICordovaClientCertRequest request) {
-      try {
-                KeyStore keystore = KeyStore.getInstance("PKCS12");
-               
-                InputStream astream = cordova.getActivity().getApplicationContext().getAssets().open(p12path);
-                keystore.load(astream, p12password.toCharArray());
-                astream.close();
-                Enumeration e = keystore.aliases();
-                if (e.hasMoreElements()) {
-                    String ealias = (String) e.nextElement();
-                    PrivateKey key = (PrivateKey) keystore.getKey(ealias, p12password.toCharArray());
-                    java.security.cert.Certificate[]  chain = keystore.getCertificateChain(ealias);
-                    X509Certificate[] certs = Arrays.copyOf(chain, chain.length, X509Certificate[].class);
-                    request.proceed(key,certs);
-                } else
-                {
-                    request.ignore();
-                }
-
-            } catch (Exception ex)
-            {
+        KeyStore keystore = null;
+        InputStream astream = null;
+        try {
+            keystore = KeyStore.getInstance("PKCS12");
+            astream = cordova.getActivity().getApplicationContext().getAssets().open(p12path);
+            keystore.load(astream, p12password.toCharArray());
+            astream.close();
+            Enumeration e = keystore.aliases();
+            if (e.hasMoreElements()) {
+                String ealias = (String) e.nextElement();
+                PrivateKey key = (PrivateKey) keystore.getKey(ealias, p12password.toCharArray());
+                java.security.cert.Certificate[] chain = keystore.getCertificateChain(ealias);
+                X509Certificate[] certs = Arrays.copyOf(chain, chain.length, X509Certificate[].class);
+                request.proceed(key, certs);
+            } else {
                 request.ignore();
             }
+            JSONObject object = new JSONObject();
+            object.put("p12Path", p12path);
+            object.put("pass", p12password);
+            callbackContext.success(object);
+        } catch (KeyStoreException e) {
+            resoleCatch(e, request);
+            callbackContext.error("KeyStoreException");
+        } catch (IOException e) {
+            resoleCatch(e, request);
+            callbackContext.error("IOException:" + e.getMessage());
+        } catch (CertificateException e) {
+            resoleCatch(e, request);
+            callbackContext.error("CertificateException:" + e.getMessage());
+        } catch (UnrecoverableKeyException e) {
+            resoleCatch(e, request);
+            callbackContext.error("UnrecoverableKeyException:" + e.getMessage());
+        } catch (NoSuchAlgorithmException e) {
+            resoleCatch(e, request);
+            callbackContext.error("NoSuchAlgorithmException:" + e.getMessage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return true;
+    }
+
+    private void resoleCatch(Exception e, ICordovaClientCertRequest request) {
+        e.printStackTrace();
+        request.ignore();
     }
 
     @Override
     public boolean execute(String action, JSONArray a, CallbackContext c) throws JSONException {
-        if (action.equals("register"))
-        {
+        callbackContext = c;
+        if (action.equals("register")) {
             p12path = "www/" + a.getString(0);
             p12password = a.getString(1);
             return true;
