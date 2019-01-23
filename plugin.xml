@@ -39,7 +39,10 @@
         <config-file target="config.xml" parent="/*">
             <feature name="ClientCertificate">
                 <param name="ios-package" value="ClientCertificate"/>
+            </feature>
+            <feature name="OpenCertFile">
                 <param name="ios-package" value="OpenCertFile"/>
+                <param name="onload" value="true" />
             </feature>
         </config-file>
 
