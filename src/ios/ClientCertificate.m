@@ -6,9 +6,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
- 
+
  http://www.apache.org/licenses/LICENSE-2.0
- 
+
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -39,7 +39,7 @@
     validateSslChain = YES;
 
     // TODO: Check for keychain item, set self as delegate if so
-    
+
     [CustomHTTPProtocol setDelegate:self];
     [CustomHTTPProtocol start];
 }
@@ -48,14 +48,14 @@
 {
     NSString* path = [command argumentAtIndex:0];
     NSString* password = [command argumentAtIndex:1];
-    
+
     //check certificate path
     if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"certificate file not found: %@", path]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         return;
     }
-    
+
     //check certificate and password
     SecIdentityRef myIdentity;
     SecTrustRef myTrust;
@@ -65,14 +65,14 @@
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         return;
     }
-    
+
     certificatePath = path;
     certificatePassword = password;
-    
+
     //resgister custom protocol
     [CustomHTTPProtocol setDelegate:self];
     [CustomHTTPProtocol start];
-    
+
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -86,44 +86,44 @@
 - (BOOL)customHTTPProtocol:(CustomHTTPProtocol *)protocol canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
 {
     NSLog(@"canAuthenticateAgainstProtectionSpace: %@", protectionSpace.authenticationMethod);
-    
+
     if ([protectionSpace authenticationMethod] == NSURLAuthenticationMethodServerTrust) {
         return !validateSslChain;
     } else if ([protectionSpace authenticationMethod] == NSURLAuthenticationMethodClientCertificate) {
         return YES;
     }
-    
+
     return NO;
 }
 
 - (void)customHTTPProtocol:(CustomHTTPProtocol *)protocol didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
     if([challenge previousFailureCount] == 0) {
-        
+
         NSURLCredential *credential = nil;
-        
+
         NSURLProtectionSpace *protectionSpace = [challenge protectionSpace];
         NSString *authMethod = [protectionSpace authenticationMethod];
         if(authMethod == NSURLAuthenticationMethodServerTrust ) {
             credential = [NSURLCredential credentialForTrust:[protectionSpace serverTrust]];
         }
-        
+
         else if(authMethod == NSURLAuthenticationMethodClientCertificate ) {
             SecIdentityRef myIdentity = NULL;
-            
+
             NSMutableDictionary *query = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                           (__bridge id)kSecClass, (__bridge id)kSecClass,
                                           (__bridge id)kCFBooleanTrue, (__bridge id)kSecReturnRef,
                                           (__bridge id)kSecMatchLimitOne, (__bridge id)kSecMatchLimit,
                                           nil];
-            
+
             NSArray *secItemClasses = [NSArray arrayWithObjects:
                                        (__bridge id)kSecClassIdentity,
                                        nil];
-            
+
             for (id secItemClass in secItemClasses) {
                 [query setObject:secItemClass forKey:(__bridge id)kSecClass];
-                
+
                 CFTypeRef result = NULL;
                 SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
                 if(result != NULL) {
@@ -131,7 +131,7 @@
                 }
             }
 
-            
+
             SecCertificateRef myCertificate;
             if(myIdentity != NULL) {
                 SecIdentityCopyCertificate(myIdentity, &myCertificate);
@@ -141,9 +141,9 @@
             }
 
         }
-        
+
         [protocol resolveAuthenticationChallenge:challenge withCredential:credential];
-        
+
     }
 }
 
@@ -153,21 +153,21 @@ OSStatus extractIdentityAndTrust(NSString *certPath, NSString *pwd, SecIdentityR
     NSData *PKCS12Data = [[NSData alloc] initWithContentsOfFile:certPath];
     CFDataRef inPKCS12Data = (__bridge CFDataRef)PKCS12Data;
     CFStringRef passwordRef = (__bridge CFStringRef)pwd; // Password for Certificate which client have given
-    
+
     const void *keys[] =   { kSecImportExportPassphrase };
     const void *values[] = { passwordRef };
-    
+
     CFDictionaryRef optionsDictionary = CFDictionaryCreate(NULL, keys, values, 1, NULL, NULL);
     CFArrayRef items = CFArrayCreate(NULL, 0, 0, NULL);
     securityError = SecPKCS12Import(inPKCS12Data, optionsDictionary, &items);
-    
+
     if (securityError == 0) {
         CFDictionaryRef myIdentityAndTrust = CFArrayGetValueAtIndex (items, 0);
         const void *tempIdentity = NULL;
         tempIdentity = CFDictionaryGetValue (myIdentityAndTrust, kSecImportItemIdentity);
 
         *identity = (SecIdentityRef)tempIdentity;
-        
+
         const void *tempTrust = NULL;
         tempTrust = CFDictionaryGetValue (myIdentityAndTrust, kSecImportItemTrust);
         *trust = (SecTrustRef)tempTrust;
@@ -189,11 +189,11 @@ OSStatus extractIdentityAndTrust(NSString *certPath, NSString *pwd, SecIdentityR
             status = SecItemAdd((CFDictionaryRef) secIdentityParams, NULL);
         }
     }
-    
+
     if (optionsDictionary) {
         CFRelease(optionsDictionary);
     }
-    
+
     if (items)
         CFRelease(items);
 
@@ -203,17 +203,17 @@ OSStatus extractIdentityAndTrust(NSString *certPath, NSString *pwd, SecIdentityR
 CFDataRef persistentRefForIdentity(SecIdentityRef identity)
 {
     OSStatus status = errSecSuccess;
- 
+
     CFTypeRef  persistent_ref = NULL;
     const void *keys[] =   { kSecReturnPersistentRef, kSecValueRef };
     const void *values[] = { kCFBooleanTrue,          identity };
     CFDictionaryRef dict = CFDictionaryCreate(NULL, keys, values,
                                               2, NULL, NULL);
     status = SecItemAdd(dict, &persistent_ref);
- 
+
     if (dict)
         CFRelease(dict);
- 
+
     return (CFDataRef)persistent_ref;
 }
 
@@ -225,10 +225,10 @@ SecIdentityRef identityForPersistentRef(CFDataRef persistent_ref)
     CFDictionaryRef dict = CFDictionaryCreate(NULL, keys, values,
                                               3, NULL, NULL);
     SecItemCopyMatching(dict, &identity_ref);
- 
+
     if (dict)
         CFRelease(dict);
- 
+
     return (SecIdentityRef)identity_ref;
 }
 
