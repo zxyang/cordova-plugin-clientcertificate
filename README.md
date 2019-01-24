@@ -1,17 +1,23 @@
 # Cordova Client Certificate Plugin
+
 This plugin uses iOS implementation and API from mwaylabs/cordova-plugin-client-certificate
 
-This plugin is a forked from zxyang/cordova-plugin-clientcertificate
+This plugin is forked from zxyang/cordova-plugin-clientcertificate / addictic/cordova-plugin-client-certificate-addictic
 
-This plugin handles client certificate request from both iOS and Android WebView the full path to the certificat is required.
+This plugin handles client certificate request from both iOS and Android WebView; the full path to the certificate is required.
 
-This plugin read the certificate in any folder even in a cordova.file.dataDirectory (r/w folder). (So you can retrieve you cert file from a API and use it)
+This plugin reads the certificate in any folder even in a cordova.file.dataDirectory (r/w folder). (So you can retrieve a cert file from an API and use it)
 
-#Todo
-Add Windows platform
+# FUTURE TODO
 
-#Prerequisites
-Add to config.xml the following
+- Add Windows platform
+
+# usage
+
+## Prerequisites
+
+Add the following to `config.xml`:
+
 ```xml
 <platform name="android">
 	<preference name="AndroidPersistentFileLocation" value="Internal" />
@@ -21,7 +27,8 @@ Add to config.xml the following
 </platform>
 ```
 
-#Use Steps
+## Use Steps
+
 Clone the plugin
 
     $ git clone https://github.com/agenceaddictic/cordova-plugin-client-certificate-addictic.git
@@ -29,23 +36,22 @@ Clone the plugin
 Create a new Cordova Project
 
     $ cordova create hello com.example.helloapp Hello
-    
+
 Install the plugin
 
     $ cd hello
     $ cordova plugin add ../cordova-plugin-client-certificate-addictic
-    
+
 Install plugin File
 
     $ cordova plugin add cordova-plugin-file
 
-    
+Sample demo:
 
-Exemple :
 Copy of an embedded certificate in /www (read only) to a directory accessible in read/write
 Retrieve the final path and execute the handshake SSL
 
-Add the following code inside `onDeviceReady`
+Add the following code inside `onDeviceReady`:
 
 ```js
 var certAutomate = 'mycert.p12';
@@ -93,7 +99,7 @@ Install iOS and Android platform
 
     cordova platform add ios
     cordova platform add android
-    
+
 Run the code
 
     cordova run android
