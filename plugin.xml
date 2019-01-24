@@ -23,8 +23,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-client-certificate"
     version="0.0.3">
+
     <name>Client Certificate</name>
+
     <description>Cordova Client Certificate Plugin</description>
+
     <license>Apache 2.0</license>
     <keywords>client, certificate, authentication, client certificate</keywords>
     <repo>https://github.com/mwaylabs/cordova-plugin-client-certificate.git</repo>
@@ -61,7 +64,6 @@
         <header-file src="src/ios/OpenCertFile.h" />
         <source-file src="src/ios/OpenCertFile.m" />
 
-
         <config-file target="*-Info.plist" parent="CFBundleDocumentTypes">
             <array>
                 <dict>
@@ -97,6 +99,7 @@
             </array>
         </config-file>
     </platform>
+
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="ClientCertificateAuthentication">
@@ -106,4 +109,5 @@
     </config-file>
     <source-file src="src/android/ClientCertificateAuthentication.java" target-dir="src/de/jstd/cordova/plugin"/>
   </platform>
+
 </plugin>
