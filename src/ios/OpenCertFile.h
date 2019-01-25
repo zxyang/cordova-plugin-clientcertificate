@@ -20,7 +20,12 @@
 #import <Cordova/CDV.h>
 
 @interface OpenCertFile : CDVPlugin
+
 - (void)selectCert:(CDVInvokedUrlCommand *)invokedCommand;
 - (void)handleOpenURL:(NSNotification *)notification;
+
+#ifdef READ_DIRECTORY_CONTENT_FOR_CERT_OPEN_URL
 - (NSMutableArray *)readDirectoryContent:(NSString *)sourcePath;
+#endif
+
 @end
