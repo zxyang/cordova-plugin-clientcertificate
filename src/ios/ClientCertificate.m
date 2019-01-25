@@ -46,17 +46,18 @@
 
 - (void)registerAuthenticationCertificate:(CDVInvokedUrlCommand*)command
 {
+    // certificate path and password
     NSString* path = [command argumentAtIndex:0];
     NSString* password = [command argumentAtIndex:1];
 
-    //check certificate path
+    // check certificate path
     if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"certificate file not found: %@", path]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         return;
     }
 
-    //check certificate and password
+    // check certificate and password
     SecIdentityRef myIdentity;
     SecTrustRef myTrust;
     OSStatus status = extractIdentityAndTrust(path, password, &myIdentity, &myTrust);
@@ -69,7 +70,7 @@
     certificatePath = path;
     certificatePassword = password;
 
-    //resgister custom protocol
+    // resgister custom protocol
     [CustomHTTPProtocol setDelegate:self];
     [CustomHTTPProtocol start];
 
