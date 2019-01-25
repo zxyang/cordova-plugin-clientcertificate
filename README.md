@@ -4,18 +4,16 @@ Plugin that uses a client certificate for authentication.
 
 This plugin uses iOS implementation and API from mwaylabs/cordova-plugin-client-certificate
 
-This plugin is forked from zxyang/cordova-plugin-clientcertificate / addictic/cordova-plugin-client-certificate-addictic
-
 This plugin handles client certificate request from both iOS and Android WebView; the full path to the certificate is required.
+
+This plugin version uses `config-file` elements to configure the app to handle open requests for files with the custom `myp12` extension, by logging, on iOS only.
 
 This plugin reads the certificate in any folder even in a cordova.file.dataDirectory (r/w folder). (So you can retrieve a cert file from an API and use it)
 
-TBD NOTE THAT ANDROID PLATFORM IMPLEMENTATION IS NOT TESTED WITH JAVASCRIPT UPDATES from mwaylabs/cordova-plugin-client-certificate
+UPDATES NOT TESTED on Android:
 
-# FUTURE TODO
-
-- TEST ANDROID PLATFORM IMPLEMENTATION WITH JAVASCRIPT UPDATES from mwaylabs/cordova-plugin-client-certificate
-- Add Windows platform
+- JavaScript updates from mwaylabs/cordova-plugin-client-certificate
+- Android platform implementation was replaced with an implementation similar to johannes-staehlin/cordova-client-cert-authentication and may not work with JavaScript API at all.
 
 ## Usage
 
@@ -55,7 +53,7 @@ Install plugin File
 
 **WARNING:** Client certificate should NEVER be included in the `www` folder or any other part of a published app.
 
-ALTERNATIVE 1:
+#### Quick sample
 
 Copy a client certificate into the `www` folder.
 
@@ -65,10 +63,10 @@ Edit `www/js/index.js` and add the following code inside `onDeviceReady`:
     clientCertificate.registerAuthenticationCertificate("certfilePath/cert.p12", "s3cr37", success, failure);
 ```
 
-ALTERNATIVE 2:
+#### With File API
 
-Copy of an embedded certificate in /www (read only) to a directory accessible in read/write
-Retrieve the final path and execute the handshake SSL
+- Copy of an embedded certificate in `www` (read only) to a directory accessible in read/write
+- Retrieve the final path and execute the handshake SSL
 
 Add the following code inside `onDeviceReady`:
 
@@ -96,7 +94,9 @@ var certAuthenticate = function() {
 	// Full path to the cert
 	var p12path = datDir.substring(7) + certFolder + certAutomate;
 	var p12pass = 'myPassword';
-	clientCertificate.registerAuthenticationCertificate(p12path, p12pass, certificateRegistred, onFailure); // UPDATED API
+
+	// Updated API from mwaylabs/cordova-plugin-client-certificate
+	clientCertificate.registerAuthenticationCertificate(p12path, p12pass, certificateRegistred, onFailure);
 };
 
 var certificateRegistred = function(message) {
@@ -124,6 +124,16 @@ Run the code
 
     cordova run android
     cordova run ios
+
+## TODO
+
+- Test on Android and document any possible differences
+- register certificate from received `openURL` callback on iOS
+
+## For future consideration
+
+- Combine with johannes-staehlin/cordova-client-cert-authentication, if possible
+- Add Windows platform
 
 ## More Info
 
