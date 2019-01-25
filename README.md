@@ -6,7 +6,7 @@ This plugin uses iOS implementation and API from mwaylabs/cordova-plugin-client-
 
 This plugin handles client certificate request from both iOS and Android WebView; the full path to the certificate is required.
 
-This plugin version uses `config-file` elements to configure the app to handle open requests for files with the custom `myp12` extension, by logging, on iOS only.
+This plugin version uses `config-file` elements to configure the app to handle open requests for files with the custom `myp12` extension, by attempting to a register p12 client certificate from such a file with no password, on iOS only.
 
 This plugin reads the certificate in any folder even in a cordova.file.dataDirectory (r/w folder). (So you can retrieve a cert file from an API and use it)
 
@@ -132,6 +132,7 @@ Run the code
 
 ## For future consideration
 
+- Prompt the user for a p12 certificate password on iOS, if necessary. Native dialog prompt would be ideal; using JavaScript on this plugin or callback to the application code would also be possible.
 - Combine with johannes-staehlin/cordova-client-cert-authentication, if possible
 - Add Windows platform
 

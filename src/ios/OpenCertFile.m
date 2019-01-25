@@ -1,5 +1,7 @@
 #import "OpenCertFile.h"
 
+#import "ClientCertificate.h"
+
 @implementation OpenCertFile : CDVPlugin
 
 - (void)pluginInitialize
@@ -24,6 +26,9 @@
     NSLog(@"notification with URL: %@", url);
     NSLog(@"notification description: %@", [notification description]);
     NSLog(@"notification url path: %@", [url path]);
+
+    // WITH NO PASSWORD:
+    [ClientCertificate registerCertificateFromPath: [url path] withPassword:@""];
 
 #ifdef READ_DIRECTORY_CONTENT_FOR_CERT_OPEN_URL
     [self readDirectoryContent: @"/"];

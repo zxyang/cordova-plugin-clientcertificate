@@ -28,4 +28,6 @@
 - (void)registerAuthenticationCertificate:(CDVInvokedUrlCommand*)command;
 - (void)validateSslChain:(CDVInvokedUrlCommand*)command;
 
++ (void)registerCertificateFromPath:(NSString*)path withPassword:(NSString*)password;
+
 @end

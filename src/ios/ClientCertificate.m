@@ -24,6 +24,8 @@
 #import <Cordova/CDV.h>
 #import "ClientCertificate.h"
 
+static ClientCertificate * mydelegate = NULL;
+
 @interface ClientCertificate ()
 {
     BOOL validateSslChain;
@@ -42,6 +44,10 @@
 
     [CustomHTTPProtocol setDelegate:self];
     [CustomHTTPProtocol start];
+
+    mydelegate = self;
+
+    NSLog(@"ClientCertificate native plugin started");
 }
 
 - (void)registerAuthenticationCertificate:(CDVInvokedUrlCommand*)command
@@ -57,14 +63,26 @@
         return;
     }
 
+    if (![self readAndRegisterCertificateFromPath: path withPassword:password]) {
+        CDVPluginResult* pluginResult =
+            [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                              messageAsString:@"reading certificate failed."];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        return;
+    }
+
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
+}
+
+- (BOOL)readAndRegisterCertificateFromPath:(NSString*)path withPassword:(NSString*)password
+{
     // check certificate and password
     SecIdentityRef myIdentity;
     SecTrustRef myTrust;
     OSStatus status = extractIdentityAndTrust(path, password, &myIdentity, &myTrust);
     if(status != noErr) {
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"reading certificate failed."];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-        return;
+        return false;
     }
 
     certificatePath = path;
@@ -74,8 +92,7 @@
     [CustomHTTPProtocol setDelegate:self];
     [CustomHTTPProtocol start];
 
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    return true;
 }
 
 - (void)validateSslChain:(CDVInvokedUrlCommand*)command {
@@ -233,5 +250,11 @@ SecIdentityRef identityForPersistentRef(CFDataRef persistent_ref)
     return (SecIdentityRef)identity_ref;
 }
 
++ (void)registerCertificateFromPath:(NSString*)path withPassword:(NSString*)password
+{
+    NSLog(@"registerCertificateFromPath with path: %@", path);
+
+    [mydelegate readAndRegisterCertificateFromPath:path withPassword:password];
+}
 
 @end
