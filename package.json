@@ -1,7 +1,7 @@
 {
     "name": "cordova-plugin-client-certificate",
     "description": "Client certificate authentication for your Cordova app.",
-    "version": "0.0.2",
+    "version": "0.0.4-dev",
     "homepage": "https://github.com/mwaylabs/cordova-plugin-client-certificate",
     "repository": {
         "type": "git",
