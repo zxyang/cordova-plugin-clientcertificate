@@ -25,6 +25,7 @@
 @interface ClientCertificate : CDVPlugin <CustomHTTPProtocolDelegate>
 {}
 
-- (void)register:(CDVInvokedUrlCommand*)command;
+- (void)registerAuthenticationCertificate:(CDVInvokedUrlCommand*)command;
+- (void)validateSslChain:(CDVInvokedUrlCommand*)command;
 
 @end
