@@ -81,10 +81,10 @@ var certAuthenticate = function() {
 };
 
 var certificateRegistred = function(message) {
-	console.log(message);		
+	console.log(message);
 	// launch your web service that requires certificate authentication here
 };
-	
+
 var onSuccess = function(message){
 	console.log('Success : ', message);
 };
@@ -92,7 +92,6 @@ var onSuccess = function(message){
 var onFailure = function(message){
 	console.log('Error : ', message);
 };
-	
 ```
 
 Install iOS and Android platform
