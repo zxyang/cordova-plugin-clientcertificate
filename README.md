@@ -2,7 +2,19 @@
 
 Plugin that uses a client certificate for authentication.
 
-This plugin uses iOS implementation and API from mwaylabs/cordova-plugin-client-certificate
+This plugin uses iOS implementation and API based on: [`mwaylabs/cordova-plugin-client-certificate`](https://github.com/mwaylabs/cordova-plugin-client-certificate)
+
+This plugin version is known to include code from the following other plugin versions:
+
+- [`EbilPanda/cordova-plugin-client-certificate-ebilpanda`](https://github.com/EbilPanda/cordova-plugin-client-certificate-ebilpanda)
+- [`addictic/cordova-plugin-client-certificate-addictic`](https://github.com/addictic/cordova-plugin-client-certificate-addictic)
+- [`zxyang/cordova-plugin-clientcertificate`](https://github.com/zxyang/cordova-plugin-clientcertificate) (this version seems to have copied some version of the code from [`johannes-staehlin/cordova-client-cert-authentication`](https://github.com/johannes-staehlin/cordova-client-cert-authentication))
+- [`mwaylabs/cordova-plugin-client-certificate`](https://github.com/mwaylabs/cordova-plugin-client-certificate)
+- [`johannes-staehlin/cordova-client-cert-authentication`](https://github.com/johannes-staehlin/cordova-client-cert-authentication)
+
+**LICENSE:** Apache 2.0, with some code for iOS under [Apple MIT License](https://spdx.org/licenses/AML.html)
+
+<!-- ## About -->
 
 This plugin handles client certificate request from both iOS and Android WebView; the full path to the certificate is required.
 

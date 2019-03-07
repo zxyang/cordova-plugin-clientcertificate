@@ -37,8 +37,8 @@
         "version": ">=3.0.0"
       }
     ],
-    "author": "M-Way Solutions GmbH",
-    "license": "Apache-2.0",
+    "author": "Various",
+    "license": "Apache-2.0 AND AML",
     "devDependencies": {
       "jshint": "^2.6.0"
     }
