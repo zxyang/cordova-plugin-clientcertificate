@@ -33,12 +33,12 @@
     <repo>https://github.com/mwaylabs/cordova-plugin-client-certificate.git</repo>
     <issue>https://github.com/mwaylabs/cordova-plugin-client-certificate/issues</issue>
 
-    <js-module src="www/clientCertificate.js" name="clientCertificate">
-        <clobbers target="clientCertificate" />
-    </js-module>
-
     <!-- ios -->
     <platform name="ios">
+        <js-module src="www/clientCertificate.js" name="clientCertificate">
+            <clobbers target="clientCertificate" />
+        </js-module>
+
         <config-file target="config.xml" parent="/*">
             <feature name="ClientCertificate">
                 <param name="ios-package" value="ClientCertificate"/>
