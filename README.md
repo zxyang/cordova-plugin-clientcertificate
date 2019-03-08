@@ -80,6 +80,10 @@ This plugin version associates itself with the `myp12` extension in plist on iOS
 
 If the user tells another iOS application such as Mail to open a `myp12` file with a Cordova app that uses this plugin version, this plugin will use the certificate from the `myp12` file. No special JavaScript code is required for this file association to function.
 
+### Cordova test app
+
+- <https://github.com/cordova-ccafix/cordova-client-cert-test-app>
+
 ### Sample programs
 
 **for iOS ONLY:**
