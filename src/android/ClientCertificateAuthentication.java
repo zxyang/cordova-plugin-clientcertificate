@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.security.KeyChain;
 import android.security.KeyChainAliasCallback;
 import android.security.KeyChainException;
+import android.security.keystore.KeyProperties;
 import android.util.Log;
 import android.widget.Toast;
 import org.apache.cordova.CordovaPlugin;
@@ -54,7 +55,16 @@ public class ClientCertificateAuthentication extends CordovaPlugin {
         final String alias = sp.getString(SP_KEY_ALIAS, null);
 
         if (alias == null) {
-            KeyChain.choosePrivateKeyAlias(cordova.getActivity(), callback, new String[]{"RSA"}, null, request.getHost(), request.getPort(), null);
+            // KeyChain.choosePrivateKeyAlias(cordova.getActivity(), callback, new String[]{"RSA"}, null, request.getHost(), request.getPort(), null);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                KeyChain.choosePrivateKeyAlias(cordova.getActivity(), callback,
+                        new String[] { KeyProperties.KEY_ALGORITHM_RSA }, null, request.getHost(), request.getPort(),
+                        null);
+            } else {
+                //noinspection WrongConstant
+                KeyChain.choosePrivateKeyAlias(cordova.getActivity(), callback, new String[] { "RSA" }, null,
+                        request.getHost(), request.getPort(), null);
+            }
         } else {
             ExecutorService threadPool = cordova.getThreadPool();
             threadPool.submit(new Runnable() {
@@ -105,7 +115,7 @@ public class ClientCertificateAuthentication extends CordovaPlugin {
         }
     }
 
-    ;
+    // ;
 
 
     public void proceedRequers(ICordovaClientCertRequest request) {

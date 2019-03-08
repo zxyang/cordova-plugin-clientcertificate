@@ -1,9 +1,105 @@
-<?xml version="1.0" encoding="utf-8"?>
-<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-        id="cordova-client-cert-authentication"
-        version="1.0.2-dev">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
 
-  <name>Client Certificate Authentication (Android)</name>
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:rim="http://www.blackberry.com/ns/widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-client-certificate"
+    version="0.0.4-dev">
+
+    <name>Client Certificate</name>
+
+    <description>Cordova Client Certificate Plugin</description>
+
+    <license>Apache 2.0</license>
+    <keywords>client, certificate, authentication, client certificate</keywords>
+    <repo>https://github.com/mwaylabs/cordova-plugin-client-certificate.git</repo>
+    <issue>https://github.com/mwaylabs/cordova-plugin-client-certificate/issues</issue>
+
+    <!-- ios -->
+    <platform name="ios">
+        <js-module src="www/clientCertificate.js" name="clientCertificate">
+            <clobbers target="clientCertificate" />
+        </js-module>
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="ClientCertificate">
+                <param name="ios-package" value="ClientCertificate"/>
+                <param name="onload" value="true" />
+            </feature>
+            <feature name="OpenCertFile">
+                <param name="ios-package" value="OpenCertFile"/>
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <framework src="Security.framework"/>
+
+        <header-file src="src/ios/ClientCertificate.h" />
+        <source-file src="src/ios/ClientCertificate.m" />
+        <header-file src="src/ios/CacheStoragePolicy.h" />
+        <source-file src="src/ios/CacheStoragePolicy.m" />
+        <header-file src="src/ios/CanonicalRequest.h" />
+        <source-file src="src/ios/CanonicalRequest.m" />
+        <header-file src="src/ios/CustomHTTPProtocol.h" />
+        <source-file src="src/ios/CustomHTTPProtocol.m" />
+        <header-file src="src/ios/QNSURLSessionDemux.h" />
+        <source-file src="src/ios/QNSURLSessionDemux.m" />
+        <header-file src="src/ios/OpenCertFile.h" />
+        <source-file src="src/ios/OpenCertFile.m" />
+
+        <config-file target="*-Info.plist" parent="CFBundleDocumentTypes">
+            <array>
+                <dict>
+                <key>CFBundleTypeName</key>
+                <string>Custom Certificate</string>
+                <key>LSItemContentTypes</key>
+                    <array>
+                        <string>customextension.certificate</string>
+                    </array>
+                <key>LSHandlerRank</key>
+                <string>Owner</string>
+            </dict>
+            </array>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="UTExportedTypeDeclarations">
+            <array>
+                <dict>
+                    <key>UTTypeConformsTo</key>
+                    <array>
+                        <string>public.data</string>
+                    </array>
+                    <key>UTTypeDescription</key>
+                    <string>Custom PKCS12 extension</string>
+                    <key>UTTypeIdentifier</key>
+                    <string>customextension.certificate</string>
+                    <key>UTTypeTagSpecification</key>
+                    <dict>
+                        <key>public.filename-extension</key>
+                        <string>myp12</string>
+                    </dict>
+                </dict>
+            </array>
+        </config-file>
+    </platform>
 
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
