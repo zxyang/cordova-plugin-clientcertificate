@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
         id="cordova-client-cert-authentication"
-        version="1.0.1">
+        version="1.0.2-dev">
 
-  <name>Client Certificate Authentication</name>
-
-  <engines>
-    <engine name="cordova" version=">=3.4.0"/>
-  </engines>
+  <name>Client Certificate Authentication (Android)</name>
 
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
