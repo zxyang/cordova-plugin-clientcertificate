@@ -70,7 +70,7 @@ Install File API plugin:
 
 Similar to [`johannes-staehlin/cordova-client-cert-authentication`](https://github.com/johannes-staehlin/cordova-client-cert-authentication), as documented in: [`johannes-staehlin/cordova-client-cert-authentication`](https://github.com/johannes-staehlin/cordova-client-cert-authentication)
 
-_as documented below_
+This plugin adds certificate-based authentication (SSO) to your cordova application. There is no extra coding or android  knowledge required when using this plugin. It does not contain any JavaScript part since it just waits until the SSLSocket asks the client for a certificate and then shows the default client-cert pop-up you would also get when visiting your web page using the android chrome browser.
 
 (Not supported by the JavaScript API)
 
@@ -170,8 +170,6 @@ For more information on setting up Cordova see [the Cordova CLI documentation](h
 For more info on plugins see the [Cordova Plugin Development Guide](https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html)
 
 # cordova-client-cert-authentication for Android
-
-This plugin adds certificate-based authentication (SSO) to your cordova application. There is no extra coding or android  knowledge required when using this plugin. It does not contain any JavaScript part since it just waits until the SSLSocket asks the client for a certificate and then shows the default client-cert pop-up you would also get when visiting your web page using the android chrome browser.
 
 ## Usage
 Follow the official [Get Started](https://cordova.apache.org/#getstarted) guide of cordova or use your existing application.
