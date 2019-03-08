@@ -12,7 +12,7 @@ This plugin version is known to include code from the following other plugin ver
 - [`mwaylabs/cordova-plugin-client-certificate`](https://github.com/mwaylabs/cordova-plugin-client-certificate)
 - [`johannes-staehlin/cordova-client-cert-authentication`](https://github.com/johannes-staehlin/cordova-client-cert-authentication)
 
-**LICENSE:** Apache 2.0, with some code for iOS under [Apple MIT License](https://spdx.org/licenses/AML.html)
+**LICENSE:** Apache 2.0, with some code for iOS under [Apple MIT License](https://spdx.org/licenses/AML.html) (more detailed license statement below)
 
 ## About
 
@@ -24,7 +24,7 @@ Specific for iOS:
 
 Specific for Android:
 
-- Android platform implementation was replaced with an implementation based on [`johannes-staehlin/cordova-client-cert-authentication`](https://github.com/johannes-staehlin/cordova-client-cert-authentication), which is not supported by the JavaScript API at all.
+- Android platform implementation was replaced with an implementation that is almost the same as [`johannes-staehlin/cordova-client-cert-authentication`](https://github.com/johannes-staehlin/cordova-client-cert-authentication), which does not work with any JavaScript API at all (see documentation below).
 
 ## Usage
 
@@ -68,9 +68,7 @@ Install File API plugin:
 
 ### Android keychain
 
-Similar to [`johannes-staehlin/cordova-client-cert-authentication`](https://github.com/johannes-staehlin/cordova-client-cert-authentication), as documented in: [`johannes-staehlin/cordova-client-cert-authentication`](https://github.com/johannes-staehlin/cordova-client-cert-authentication)
-
-This plugin adds certificate-based authentication (SSO) to your cordova application. There is no extra coding or android  knowledge required when using this plugin. It does not contain any JavaScript part since it just waits until the SSLSocket asks the client for a certificate and then shows the default client-cert pop-up you would also get when visiting your web page using the android chrome browser.
+This plugin adds certificate-based authentication (SSO) to your cordova application. There is no extra coding or Android platform knowledge required when using this plugin on Android. It does not contain any JavaScript part since it just waits until the SSLSocket asks the client for a certificate and then shows the default client-cert pop-up you would also get when visiting your web page using the Android Chrome browser.
 
 (Not supported by the JavaScript API)
 
@@ -84,11 +82,13 @@ If the user tells another iOS application such as Mail to open a `myp12` file wi
 
 ### Sample programs
 
+**for iOS ONLY:**
+
 **WARNING:** Client certificate should NEVER be included in the `www` folder or any other part of a published app.
 
 #### Quick sample
 
-Copy a client certificate into the `www` folder.
+FOR TESTING PURPOSES ONLY (see warning above): Copy a client certificate into the `www` folder.
 
 Edit `www/js/index.js` and add the following code inside `onDeviceReady`:
 
@@ -98,7 +98,7 @@ Edit `www/js/index.js` and add the following code inside `onDeviceReady`:
 
 #### With File API
 
-- Copy of an embedded certificate in `www` (read only) to a directory accessible in read/write
+- FOR TESTING PURPOSES ONLY (see warning above): Copy of an embedded certificate in `www` (read only) to a directory accessible in read/write
 - Retrieve the final path and execute the handshake SSL
 
 Add the following code inside `onDeviceReady`:
@@ -169,23 +169,6 @@ For more information on setting up Cordova see [the Cordova CLI documentation](h
 
 For more info on plugins see the [Cordova Plugin Development Guide](https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html)
 
-# cordova-client-cert-authentication for Android
-
-## Usage
-Follow the official [Get Started](https://cordova.apache.org/#getstarted) guide of cordova or use your existing application.
-
-Add the following plugin to your `config.xml`
-```xml
-<plugin name="cordova-client-cert-authentication" version="1" />
-```
-
-Then run your usual commands:
-```bash
-cordova platform add android
-cordova build
-...
-```
-
 ## Contributing
 
 Feel free to contribute code to this project through GitHub by forking the repository and sending a pull request.
@@ -196,7 +179,7 @@ Feel free to contribute code to this project through GitHub by forking the repos
 
     Copyright 2018 Johannes Stählin
 
-    __with code from other authors and contributors__
+    with code from other authors and contributors
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -210,4 +193,4 @@ Feel free to contribute code to this project through GitHub by forking the repos
     See the License for the specific language governing permissions and
     limitations under the License.
 
-_with some code for iOS under [Apple MIT License](https://spdx.org/licenses/AML.html)_
+with some code for iOS under [Apple MIT License](https://spdx.org/licenses/AML.html)
