@@ -22,25 +22,35 @@
     xmlns:rim="http://www.blackberry.com/ns/widgets"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-client-certificate"
-    version="0.0.1">
+    version="0.0.4-dev">
+
     <name>Client Certificate</name>
+
     <description>Cordova Client Certificate Plugin</description>
+
     <license>Apache 2.0</license>
     <keywords>client, certificate, authentication, client certificate</keywords>
     <repo>https://github.com/mwaylabs/cordova-plugin-client-certificate.git</repo>
     <issue>https://github.com/mwaylabs/cordova-plugin-client-certificate/issues</issue>
 
-    <js-module src="www/clientCertificate.js" name="clientCertificate">
-        <clobbers target="clientCertificate" />
-    </js-module>
-
     <!-- ios -->
     <platform name="ios">
+        <js-module src="www/clientCertificate.js" name="clientCertificate">
+            <clobbers target="clientCertificate" />
+        </js-module>
+
         <config-file target="config.xml" parent="/*">
             <feature name="ClientCertificate">
                 <param name="ios-package" value="ClientCertificate"/>
+                <param name="onload" value="true" />
+            </feature>
+            <feature name="OpenCertFile">
+                <param name="ios-package" value="OpenCertFile"/>
+                <param name="onload" value="true" />
             </feature>
         </config-file>
+
+        <framework src="Security.framework"/>
 
         <header-file src="src/ios/ClientCertificate.h" />
         <source-file src="src/ios/ClientCertificate.m" />
@@ -52,15 +62,53 @@
         <source-file src="src/ios/CustomHTTPProtocol.m" />
         <header-file src="src/ios/QNSURLSessionDemux.h" />
         <source-file src="src/ios/QNSURLSessionDemux.m" />
+        <header-file src="src/ios/OpenCertFile.h" />
+        <source-file src="src/ios/OpenCertFile.m" />
 
+        <config-file target="*-Info.plist" parent="CFBundleDocumentTypes">
+            <array>
+                <dict>
+                <key>CFBundleTypeName</key>
+                <string>Custom Certificate</string>
+                <key>LSItemContentTypes</key>
+                    <array>
+                        <string>customextension.certificate</string>
+                    </array>
+                <key>LSHandlerRank</key>
+                <string>Owner</string>
+            </dict>
+            </array>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="UTExportedTypeDeclarations">
+            <array>
+                <dict>
+                    <key>UTTypeConformsTo</key>
+                    <array>
+                        <string>public.data</string>
+                    </array>
+                    <key>UTTypeDescription</key>
+                    <string>Custom PKCS12 extension</string>
+                    <key>UTTypeIdentifier</key>
+                    <string>customextension.certificate</string>
+                    <key>UTTypeTagSpecification</key>
+                    <dict>
+                        <key>public.filename-extension</key>
+                        <string>myp12</string>
+                    </dict>
+                </dict>
+            </array>
+        </config-file>
     </platform>
+
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
-      <feature name="ClientCertificate">
-        <param name="android-package" value="org.apache.cordova.plugin.clientcert.ClientCertificate"/>
+      <feature name="ClientCertificateAuthentication">
+        <param name="android-package" value="de.jstd.cordova.plugin.ClientCertificateAuthentication"/>
         <param name="onload" value="true" />
       </feature>
     </config-file>
-    <source-file src="src/android/ClientCertificate.java" target-dir="src/org/apache/cordova/plugin/"/>
+    <source-file src="src/android/ClientCertificateAuthentication.java" target-dir="src/de/jstd/cordova/plugin"/>
   </platform>
+
 </plugin>

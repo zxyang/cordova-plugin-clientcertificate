@@ -17,17 +17,15 @@
  under the License.
  */
 
-#import <UIKit/UIKit.h>
-#import <Cordova/CDVPlugin.h>
+#import <Cordova/CDV.h>
 
-#import "CustomHTTPProtocol.h"
+@interface OpenCertFile : CDVPlugin
 
-@interface ClientCertificate : CDVPlugin <CustomHTTPProtocolDelegate>
-{}
+- (void)selectCert:(CDVInvokedUrlCommand *)invokedCommand;
+- (void)handleOpenURL:(NSNotification *)notification;
 
-- (void)registerAuthenticationCertificate:(CDVInvokedUrlCommand*)command;
-- (void)validateSslChain:(CDVInvokedUrlCommand*)command;
-
-+ (void)registerCertificateFromPath:(NSString*)path withPassword:(NSString*)password;
+#ifdef READ_DIRECTORY_CONTENT_FOR_CERT_OPEN_URL
+- (NSMutableArray *)readDirectoryContent:(NSString *)sourcePath;
+#endif
 
 @end
